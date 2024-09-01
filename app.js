@@ -29,13 +29,15 @@ async function initializeDatabase() {
 // Panggil fungsi async untuk menginisialisasi database
 initializeDatabase();
 
+const PORT = process.env.APP_PORT || 3000;
+
 app.use(cors({
     credentials: true, 
-    origin: `http://localhost:${process.env.APP_PORT || 3000}`
+    origin: `http://localhost:${PORT}`
 }));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(router);
 
-app.listen(5000, () => console.log('Server running at port 5000'));
+app.listen(PORT, () => console.log('Server running at port 5000'));
