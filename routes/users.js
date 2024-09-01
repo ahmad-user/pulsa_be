@@ -203,7 +203,7 @@ app.put(
   }
 );
 
-app.put("/users/:id", async (req, res) => {
+app.put("/view/:id", async (req, res) => {
   try {
     const users = await Users.findAll({
       attributes: ["email", "first_name", "last_name", "profile_image"],
@@ -221,7 +221,7 @@ app.put("/users/:id", async (req, res) => {
   }
 });
 
-app.get("/users", VerifyToken, async (req, res) => {
+app.get("/view", VerifyToken, async (req, res) => {
   try {
     const users = await Users.findAll({
       attributes: ["email", "first_name", "last_name", "profile_image"],
@@ -240,7 +240,5 @@ app.get("/users", VerifyToken, async (req, res) => {
 });
 
 // BANNER
-
-
 
 module.exports = app;
