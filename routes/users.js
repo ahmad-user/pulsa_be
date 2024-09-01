@@ -105,122 +105,122 @@ app.delete("/logout", async (req, res) => {
   return res.sendStatus(200);
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ["image/jpeg", "image/png"];
-  if (!allowedTypes.includes(file.mimetype)) {
-    return cb(new Error("Format Image  Tidak Sesuai"), false);
-  }
-  cb(null, true);
-};
+// const fileFilter = (req, file, cb) => {
+//   const allowedTypes = ["image/jpeg", "image/png"];
+//   if (!allowedTypes.includes(file.mimetype)) {
+//     return cb(new Error("Format Image  Tidak Sesuai"), false);
+//   }
+//   cb(null, true);
+// };
 
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-});
+// const upload = multer({
+//   storage: storage,
+//   fileFilter: fileFilter,
+// });
 
-app.put(
-  "/images/:id",
-  upload.single("profileImage"),
-  VerifyToken,
-  async (req, res) => {
-    const { id } = req.params;
-    const file = req.file;
-    if (!file) {
-      return res.status(400).json({
-        status: 106,
-        message: "Tidak ada file yang diunggah",
-        data: null,
-      });
-    }
-    const profileImage = file.filename;
-    try {
-      const user = await Users.findOne({
-        where: { id: id },
-      });
+// app.put(
+//   "/images/:id",
+//   upload.single("profileImage"),
+//   VerifyToken,
+//   async (req, res) => {
+//     const { id } = req.params;
+//     const file = req.file;
+//     if (!file) {
+//       return res.status(400).json({
+//         status: 106,
+//         message: "Tidak ada file yang diunggah",
+//         data: null,
+//       });
+//     }
+//     const profileImage = file.filename;
+//     try {
+//       const user = await Users.findOne({
+//         where: { id: id },
+//       });
 
-      if (!user)
-        return res.status(404).json({
-          status: 104,
-          message: "User tidak ditemukan",
-          data: null,
-        });
-      if (user.profile_image) {
-        const oldImagePath = path.join(
-          __dirname,
-          "uploads",
-          user.profile_image
-        );
-        if (fs.existsSync(oldImagePath)) {
-          fs.unlinkSync(oldImagePath);
-        }
-      }
-      await Users.update(
-        {
-          profile_image: profileImage,
-        },
-        {
-          where: { id: id },
-        }
-      );
+//       if (!user)
+//         return res.status(404).json({
+//           status: 104,
+//           message: "User tidak ditemukan",
+//           data: null,
+//         });
+//       if (user.profile_image) {
+//         const oldImagePath = path.join(
+//           __dirname,
+//           "uploads",
+//           user.profile_image
+//         );
+//         if (fs.existsSync(oldImagePath)) {
+//           fs.unlinkSync(oldImagePath);
+//         }
+//       }
+//       await Users.update(
+//         {
+//           profile_image: profileImage,
+//         },
+//         {
+//           where: { id: id },
+//         }
+//       );
 
-      const updatedUser = await Users.findOne({
-        where: { id: id },
-      });
-      res.status(200).json({
-        status: 0,
-        message: "Update Profile Image berhasil",
-        data: {
-          id: updatedUser.id,
-          email: updatedUser.email,
-          first_name: updatedUser.first_name,
-          last_name: updatedUser.last_name,
-          profile_image: updatedUser.profile_image,
-        },
-      });
-    } catch (error) {
-      res.status(401).json({
-        status: 102,
-        message: "Terjadi Kesalahan pada Server",
-        data: nul,
-      });
-    }
-  }
-);
+//       const updatedUser = await Users.findOne({
+//         where: { id: id },
+//       });
+//       res.status(200).json({
+//         status: 0,
+//         message: "Update Profile Image berhasil",
+//         data: {
+//           id: updatedUser.id,
+//           email: updatedUser.email,
+//           first_name: updatedUser.first_name,
+//           last_name: updatedUser.last_name,
+//           profile_image: updatedUser.profile_image,
+//         },
+//       });
+//     } catch (error) {
+//       res.status(401).json({
+//         status: 102,
+//         message: "Terjadi Kesalahan pada Server",
+//         data: nul,
+//       });
+//     }
+//   }
+// );
 
-app.put("/users/:id", VerifyToken, async (req, res) => {
-  try {
-    const users = await Users.findAll({
-      attributes: ["email", "first_name", "last_name", "profile_image"],
-    });
-    res.status(200).json({
-      status: 0,
-      message: "Sukses",
-      data: users,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 102,
-      message: "Terjadi Kesalahan pada Server",
-    });
-  }
-});
+// app.put("/users/:id", VerifyToken, async (req, res) => {
+//   try {
+//     const users = await Users.findAll({
+//       attributes: ["email", "first_name", "last_name", "profile_image"],
+//     });
+//     res.status(200).json({
+//       status: 0,
+//       message: "Sukses",
+//       data: users,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       status: 102,
+//       message: "Terjadi Kesalahan pada Server",
+//     });
+//   }
+// });
 
-app.get("/users", VerifyToken, async (req, res) => {
-  try {
-    const users = await Users.findAll({
-      attributes: ["email", "first_name", "last_name", "profile_image"],
-    });
-    res.status(200).json({
-      status: 0,
-      message: "Sukses",
-      data: users,
-    });
-  } catch (error) {
-    res.status(500).json({
-      status: 102,
-      message: "Terjadi Kesalahan pada Server",
-    });
-  }
-});
+// app.get("/users", VerifyToken, async (req, res) => {
+//   try {
+//     const users = await Users.findAll({
+//       attributes: ["email", "first_name", "last_name", "profile_image"],
+//     });
+//     res.status(200).json({
+//       status: 0,
+//       message: "Sukses",
+//       data: users,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       status: 102,
+//       message: "Terjadi Kesalahan pada Server",
+//     });
+//   }
+// });
 
 module.exports = app;
