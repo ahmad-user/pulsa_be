@@ -1,0 +1,64 @@
+// REGISTER USER
+POST http://localhost:5000/register
+Content-Type: application/json  
+
+{
+  "email":"ahmad@gmail.com",
+  "first_name":"Muhammad",
+  "last_name":"Fadilah",
+  "password": "12345678",
+  "confirm_password": "12345678"
+}
+
+###
+// LOGIN
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+  "email":"ahmad@gmail.com",
+  "password": "12345678",
+  "confirm_password": "12345678"
+}
+
+// GET ALL USER
+###
+GET http://localhost:5000/users
+
+//UPDATE USER
+###
+PUT http://localhost:5000/users/1
+
+{
+  "first_name": "Muhammad",
+  "last_name": "Fadli"
+}
+###
+// UPDATE GAMBAR
+POST http://localhost:5000/images/1
+form-data
+profileImage  file
+###
+// GET ALL BANNER
+GET http://localhost:5000/banner
+###
+// GET ALL SERVICE
+GET http://localhost:5000/service
+###
+// POST TRANSACTION
+http://localhost:5000/transaction
+Content-Type: application/json 
+
+{
+  "invoice_number": "INV17082023-001",
+  "service_code": "PLN"
+}
+###
+// TOP UP TRANSACTION
+POST http://localhost:5000/topUp
+###
+// GET BALANCE TRANSACTION
+GET http://localhost:5000/transaction
+###
+// GET HISTORY TRANSACTION
+GET http://localhost:5000/history
