@@ -1,6 +1,7 @@
 LINK RAILWAY :
 https://pulsabe-production.up.railway.app/users/register
 
+###
 // REGISTER USER
 POST http://localhost:5000/users/register
 Content-Type: application/json  
@@ -9,8 +10,8 @@ Content-Type: application/json
   "email":"ahmad@gmail.com",
   "first_name":"Muhammad",
   "last_name":"Fadilah",
-  "password": "12345678",
-  "confirm_password": "12345678"
+  "password":"12345678",
+  "confirm_password":"12345678"
 }
 
 ###
@@ -20,7 +21,7 @@ Content-Type: application/json
 
 {
   "email":"ahmad@gmail.com",
-  "password": "12345678",
+  "password":"12345678",
   "confirm_password": "12345678"
 }
 
@@ -33,8 +34,8 @@ GET http://localhost:5000/users/view
 PUT http://localhost:5000/users/view/1
 
 {
-  "first_name": "Joko",
-  "last_name": "Santoso"
+  "first_name":"Muhammad",
+  "last_name":"Fadilah"
 }
 ###
 // UPDATE GAMBAR

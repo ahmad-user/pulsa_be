@@ -203,20 +203,49 @@ app.put(
   }
 );
 
-app.put("/view/:id", async (req, res) => {
+app.put("/view/:id", VerifyToken, async (req, res) => {
+  const { id } = req.params;
+  const { first_name, last_name } = req.body;
+
   try {
-    const users = await Users.findAll({
-      attributes: ["email", "first_name", "last_name", "profile_image"],
+    const user = await Users.findOne({
+      where: {
+        id: id,
+      },
     });
+
+    if (!user) return res.status(404).json({ msg: "User tidak ditemukan" });
+
+    await Users.update(
+      {
+        first_name: first_name || user.first_name,
+        last_name: last_name || user.last_name,
+      },
+      {
+        where: {
+          id: id,
+        },
+      }
+    );
+    const updateUser = await Users.findOne({
+      where: { id: id },
+    });
+
     res.status(200).json({
       status: 0,
-      message: "Sukses",
-      data: users,
+      message: "User berhasil diupdate",
+      data: {
+        email: updateUser.email,
+        first_name: updateUser.first_name,
+        last_name: updateUser.last_name,
+        profile_image: updateUser.profile_image,
+      },
     });
   } catch (error) {
-    res.status(500).json({
+    res.status(401).json({
       status: 102,
       message: "Terjadi Kesalahan pada Server",
+      data: null,
     });
   }
 });
