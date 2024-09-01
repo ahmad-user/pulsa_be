@@ -19,79 +19,79 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req, file, cb) => {
-  const allowedTypes = ["image/jpeg", "image/png"];
-  if (!allowedTypes.includes(file.mimetype)) {
-    return cb(new Error("Format Image  Tidak Sesuai"), false);
-  }
-  cb(null, true);
-};
+// const fileFilter = (req, file, cb) => {
+//   const allowedTypes = ["image/jpeg", "image/png"];
+//   if (!allowedTypes.includes(file.mimetype)) {
+//     return cb(new Error("Format Image  Tidak Sesuai"), false);
+//   }
+//   cb(null, true);
+// };
 
-const upload = multer({
-  storage: storage,
-  fileFilter: fileFilter,
-});
+// const upload = multer({
+//   storage: storage,
+//   fileFilter: fileFilter,
+// });
 
 // UPLOAD IMAGES
-const updateImage = async (req, res) => {
-  const { id } = req.params;
-  const file = req.file;
-  if (!file) {
-    return res.status(400).json({
-      status: 106,
-      message: "Tidak ada file yang diunggah",
-      data: null,
-    });
-  }
-  const profileImage = file.filename;
-  try {
-    const user = await Users.findOne({
-      where: { id: id },
-    });
+// const updateImage = async (req, res) => {
+//   const { id } = req.params;
+//   const file = req.file;
+//   if (!file) {
+//     return res.status(400).json({
+//       status: 106,
+//       message: "Tidak ada file yang diunggah",
+//       data: null,
+//     });
+//   }
+//   const profileImage = file.filename;
+//   try {
+//     const user = await Users.findOne({
+//       where: { id: id },
+//     });
 
-    if (!user)
-      return res.status(404).json({
-        status: 104,
-        message: "User tidak ditemukan",
-        data: null,
-      });
-    if (user.profile_image) {
-      const oldImagePath = path.join(__dirname, "uploads", user.profile_image);
-      if (fs.existsSync(oldImagePath)) {
-        fs.unlinkSync(oldImagePath);
-      }
-    }
-    await Users.update(
-      {
-        profile_image: profileImage,
-      },
-      {
-        where: { id: id },
-      }
-    );
+//     if (!user)
+//       return res.status(404).json({
+//         status: 104,
+//         message: "User tidak ditemukan",
+//         data: null,
+//       });
+//     if (user.profile_image) {
+//       const oldImagePath = path.join(__dirname, "uploads", user.profile_image);
+//       if (fs.existsSync(oldImagePath)) {
+//         fs.unlinkSync(oldImagePath);
+//       }
+//     }
+//     await Users.update(
+//       {
+//         profile_image: profileImage,
+//       },
+//       {
+//         where: { id: id },
+//       }
+//     );
 
-    const updatedUser = await Users.findOne({
-      where: { id: id },
-    });
-    res.status(200).json({
-      status: 0,
-      message: "Update Profile Image berhasil",
-      data: {
-        id: updatedUser.id,
-        email: updatedUser.email,
-        first_name: updatedUser.first_name,
-        last_name: updatedUser.last_name,
-        profile_image: updatedUser.profile_image,
-      },
-    });
-  } catch (error) {
-    res.status(401).json({
-      status: 102,
-      message: "Terjadi Kesalahan pada Server",
-      data: nul,
-    });
-  }
-};
+//     const updatedUser = await Users.findOne({
+//       where: { id: id },
+//     });
+//     res.status(200).json({
+//       status: 0,
+//       message: "Update Profile Image berhasil",
+//       data: {
+//         id: updatedUser.id,
+//         email: updatedUser.email,
+//         first_name: updatedUser.first_name,
+//         last_name: updatedUser.last_name,
+//         profile_image: updatedUser.profile_image,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(401).json({
+//       status: 102,
+//       message: "Terjadi Kesalahan pada Server",
+//       data: nul,
+//     });
+//   }
+// };
 
 const getUsers = async (req, res) => {
   try {
@@ -111,88 +111,89 @@ const getUsers = async (req, res) => {
   }
 };
 
-const Register = async (req, res) => {
-  const { email, password, confirm_password } = req.body;
-  if (!validator.isEmail(email))
-    return res.status(400).json({ msg: "Email tidak sesuai" });
-  if (password.length < 8)
-    return res.status(400).json({ msg: "password harus 8 kharakter" });
-  if (password != confirm_password)
-    return res.status(400).json({ msg: "password tidak sesuai" });
-  const salt = await bcrypt.genSalt();
-  const hashPassword = await bcrypt.hash(password, salt);
-  try {
-    const CekUser = await Users.findOne({ where: { email: email } });
-    if (CekUser) return res.status(400).json({ msg: "Email telah terdaftar" });
+// const Register = async (req, res) => {
+//   const { email, password, confirm_password } = req.body;
+//   if (!validator.isEmail(email))
+//     return res.status(400).json({ msg: "Email tidak sesuai" });
+//   if (password.length < 8)
+//     return res.status(400).json({ msg: "password harus 8 kharakter" });
+//   if (password != confirm_password)
+//     return res.status(400).json({ msg: "password tidak sesuai" });
+//   const salt = await bcrypt.genSalt();
+//   const hashPassword = await bcrypt.hash(password, salt);
+//   try {
+//     const CekUser = await Users.findOne({ where: { email: email } });
+//     if (CekUser) return res.status(400).json({ msg: "Email telah terdaftar" });
 
-    await Users.create({
-      email: email,
-      first_name: req.body.first_name,
-      last_name: req.body.last_name,
-      password: hashPassword,
-    });
-    res.status(200).json({
-      status: 0,
-      message: "Registrasi Berhasil Silahkan Login",
-      data: null,
-    });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({
-      status: 102,
-      message: "Parameter Email Tidak Sesuai Format",
-      data: null,
-    });
-  }
-};
+//     await Users.create({
+//       email: email,
+//       first_name: req.body.first_name,
+//       last_name: req.body.last_name,
+//       password: hashPassword,
+//     });
+//     res.status(200).json({
+//       status: 0,
+//       message: "Registrasi Berhasil Silahkan Login",
+//       data: null,
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     res.status(500).json({
+//       status: 102,
+//       message: "Parameter Email Tidak Sesuai Format",
+//       data: null,
+//     });
+//   }
+// };
 
 //UPDATE USER
-const updateUser = async (req, res) => {
-  const { id } = req.params;
-  const { first_name, last_name } = req.body;
 
-  try {
-    const user = await Users.findOne({
-      where: {
-        id: id,
-      },
-    });
+// const updateUser = async (req, res) => {
+//   const { id } = req.params;
+//   const { first_name, last_name } = req.body;
 
-    if (!user) return res.status(404).json({ msg: "User tidak ditemukan" });
+//   try {
+//     const user = await Users.findOne({
+//       where: {
+//         id: id,
+//       },
+//     });
 
-    await Users.update(
-      {
-        first_name: first_name || user.first_name,
-        last_name: last_name || user.last_name,
-      },
-      {
-        where: {
-          id: id,
-        },
-      }
-    );
-    const updateUser = await Users.findOne({
-      where: { id: id },
-    });
+//     if (!user) return res.status(404).json({ msg: "User tidak ditemukan" });
 
-    res.status(200).json({
-      status: 0,
-      message: "User berhasil diupdate",
-      data: {
-        email: updateUser.email,
-        first_name: updateUser.first_name,
-        last_name: updateUser.last_name,
-        profile_image: updateUser.profile_image,
-      },
-    });
-  } catch (error) {
-    res.status(401).json({
-      status: 102,
-      message: "Terjadi Kesalahan pada Server",
-      data: null,
-    });
-  }
-};
+//     await Users.update(
+//       {
+//         first_name: first_name || user.first_name,
+//         last_name: last_name || user.last_name,
+//       },
+//       {
+//         where: {
+//           id: id,
+//         },
+//       }
+//     );
+//     const updateUser = await Users.findOne({
+//       where: { id: id },
+//     });
+
+//     res.status(200).json({
+//       status: 0,
+//       message: "User berhasil diupdate",
+//       data: {
+//         email: updateUser.email,
+//         first_name: updateUser.first_name,
+//         last_name: updateUser.last_name,
+//         profile_image: updateUser.profile_image,
+//       },
+//     });
+//   } catch (error) {
+//     res.status(401).json({
+//       status: 102,
+//       message: "Terjadi Kesalahan pada Server",
+//       data: null,
+//     });
+//   }
+// };
 
 const getUserById = async (req, res) => {
   const { id } = req.params;
