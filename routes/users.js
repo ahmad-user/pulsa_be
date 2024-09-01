@@ -188,23 +188,23 @@ app.delete("/logout", async (req, res) => {
 //   }
 // );
 
-// app.put("/users/:id", VerifyToken, async (req, res) => {
-//   try {
-//     const users = await Users.findAll({
-//       attributes: ["email", "first_name", "last_name", "profile_image"],
-//     });
-//     res.status(200).json({
-//       status: 0,
-//       message: "Sukses",
-//       data: users,
-//     });
-//   } catch (error) {
-//     res.status(500).json({
-//       status: 102,
-//       message: "Terjadi Kesalahan pada Server",
-//     });
-//   }
-// });
+app.put("/users/:id", VerifyToken, async (req, res) => {
+  try {
+    const users = await Users.findAll({
+      attributes: ["email", "first_name", "last_name", "profile_image"],
+    });
+    res.status(200).json({
+      status: 0,
+      message: "Sukses",
+      data: users,
+    });
+  } catch (error) {
+    res.status(500).json({
+      status: 102,
+      message: "Terjadi Kesalahan pada Server",
+    });
+  }
+});
 
 app.get("/users", VerifyToken, async (req, res) => {
   try {
