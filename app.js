@@ -31,7 +31,7 @@ initializeDatabase();
 
 app.use(cors({
     credentials: true, 
-    origin: `http://localhost:${process.env.APP_PORT}`
+    origin: `http://localhost:${process.env.APP_PORT || 3000}`
 }));
 app.use(cookieParser());
 app.use(express.json());
