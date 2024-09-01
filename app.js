@@ -1,21 +1,41 @@
 const express = require('express');
-const path = require('path');
-const indexRouter = require('./routes/index');
+const cors = require('cors');
+const dotenv = require('dotenv');
+const cookieParser = require('cookie-parser');
+const db = require('./config/database.js');
+const router = require('./routes/index.js');
+const tableUser = require('./models/UserModels.js');
+const tableBanner = require('./models/BannerModels.js');
+const tableTransaksi = require('./models/TransaksiModels.js');
+const tableService = require('./models/ServiceModels.js');
+
+dotenv.config();
 
 const app = express();
-const PORT = 3000;
 
-// Serve static files from the "public" directory
-app.use(express.static(path.join(__dirname, 'public')));
+async function initializeDatabase() {
+    try {
+        await db.authenticate();
+        console.log('Database Connected!');
+        await tableUser.sync();
+        await tableBanner.sync();
+        await tableTransaksi.sync();
+        await tableService.sync();
+    } catch (error) {
+        console.error(error);
+    }
+}
 
-// Use the router for handling routes
-app.use('/', indexRouter);
+// Panggil fungsi async untuk menginisialisasi database
+initializeDatabase();
 
-// Catch-all route for handling 404 errors
-app.use((req, res, next) => {
-    res.status(404).sendFile(path.join(__dirname, 'views', '404.html'));
-  });
+app.use(cors({
+    credentials: true, 
+    origin: `http://localhost:${process.env.APP_PORT}`
+}));
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(router);
 
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}/`);
-});
+app.listen(5000, () => console.log('Server running at port 5000'));
