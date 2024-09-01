@@ -50,7 +50,7 @@ app.get("/banner", VerifyToken, async (req, res) => {
     });
   }
 });
-
+//POST SERVICE
 app.post("/service", VerifyToken, async (req, res) => {
   const { service_code, service_name, service_icon, service_tarif } = req.body;
   try {
@@ -74,7 +74,7 @@ app.post("/service", VerifyToken, async (req, res) => {
     });
   }
 });
-
+// GET SERVICE
 app.get("/service", VerifyToken, async (req, res) => {
   try {
     const services = await Service.findAll();
