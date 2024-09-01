@@ -85,7 +85,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.delete("/logout", async (req, res) => {
+app.delete("/logout", VerifyToken, async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(204);
 

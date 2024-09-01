@@ -27,26 +27,26 @@ GET http://localhost:5000/users/view
 
 //UPDATE USER
 ###
-PUT http://localhost:5000/view/1
+PUT http://localhost:5000/users/view/1
 
 {
-  "first_name": "Muhammad",
-  "last_name": "Fadli"
+  "first_name": "Joko",
+  "last_name": "Santoso"
 }
 ###
 // UPDATE GAMBAR
-POST http://localhost:5000/images/1
+POST http://localhost:5000/users/images/1
 form-data
 profileImage  file
 ###
 // GET ALL BANNER
-GET http://localhost:5000/banner
+GET http://localhost:5000/information/banner
 ###
 // GET ALL SERVICE
-GET http://localhost:5000/service
+GET http://localhost:5000/information/service
 ###
 // POST TRANSACTION
-http://localhost:5000/transaction
+http://localhost:5000/transaction/transaction
 Content-Type: application/json 
 
 {
@@ -55,10 +55,14 @@ Content-Type: application/json
 }
 ###
 // TOP UP TRANSACTION
-POST http://localhost:5000/topUp
+POST http://localhost:5000/transaction/topup
 ###
 // GET BALANCE TRANSACTION
-GET http://localhost:5000/transaction
+GET http://localhost:5000//transaction/amount
 ###
 // GET HISTORY TRANSACTION
-GET http://localhost:5000/history
+GET http://localhost:5000/transaction/history
+
+
+LINK RAILWAY :
+https://pulsabe-production.up.railway.app/users/register
