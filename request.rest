@@ -1,3 +1,6 @@
+LINK RAILWAY :
+https://pulsabe-production.up.railway.app/users/register
+
 // REGISTER USER
 POST http://localhost:5000/users/register
 Content-Type: application/json  
@@ -64,5 +67,3 @@ GET http://localhost:5000//transaction/amount
 GET http://localhost:5000/transaction/history
 
 
-LINK RAILWAY :
-https://pulsabe-production.up.railway.app/users/register
