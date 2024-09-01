@@ -8,7 +8,40 @@ const path = require("path");
 const fs = require("fs");
 
 const app = express.Router();
+app.post("/register", async (req, res) => {
+  const { email, password, confirm_password } = req.body;
+  if (!validator.isEmail(email))
+    return res.status(400).json({ msg: "Email tidak sesuai" });
+  if (password.length < 8)
+    return res.status(400).json({ msg: "password harus 8 kharakter" });
+  if (password != confirm_password)
+    return res.status(400).json({ msg: "password tidak sesuai" });
+  const salt = await bcrypt.genSalt();
+  const hashPassword = await bcrypt.hash(password, salt);
+  try {
+    const CekUser = await Users.findOne({ where: { email: email } });
+    if (CekUser) return res.status(400).json({ msg: "Email telah terdaftar" });
 
+    await Users.create({
+      email: email,
+      first_name: req.body.first_name,
+      last_name: req.body.last_name,
+      password: hashPassword,
+    });
+    res.status(200).json({
+      status: 0,
+      message: "Registrasi Berhasil Silahkan Login",
+      data: null,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({
+      status: 102,
+      message: "Parameter Email Tidak Sesuai Format",
+      data: null,
+    });
+  }
+});
 app.post("/login", async (req, res) => {
   try {
     const user = await Users.findAll({
@@ -48,7 +81,7 @@ app.post("/login", async (req, res) => {
   }
 });
 
-app.delete('/logout', async (req, res) => {
+app.delete("/logout", async (req, res) => {
   const refreshToken = req.cookies.refreshToken;
   if (!refreshToken) return res.sendStatus(204);
 

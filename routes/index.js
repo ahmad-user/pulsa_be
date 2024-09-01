@@ -32,7 +32,7 @@ app.get("/users/:id", VerifyToken, getUserById);
 app.delete("/users/:id", VerifyToken, deleteUser);
 app.put("/users/:id", VerifyToken, updateUser);
 app.put("/images/:id", upload.single("profileImage"), VerifyToken, updateImage);
-app.post("/register", Register);
+// app.post("/register", Register);
 // app.post('/login', Login);
 // app.delete('/logout', Logout);
 
