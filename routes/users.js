@@ -1,4 +1,11 @@
 const express = require("express");
+const Users = require("../models/UserModels.js");
+const validator = require("validator");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
 
 const app = express.Router();
 
@@ -39,6 +46,29 @@ app.post("/login", async (req, res) => {
       data: null,
     });
   }
+});
+
+app.delete('/logout', async (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.sendStatus(204);
+
+  const user = await Users.findAll({
+    where: {
+      refresh_token: refreshToken,
+    },
+  });
+  if (!user[0]) return res.sendStatus(204);
+  const userId = user[0].id;
+  await Users.update(
+    { refresh_token: null },
+    {
+      where: {
+        id: userId,
+      },
+    }
+  );
+  res.clearCookie("refreshToken");
+  return res.sendStatus(200);
 });
 
 module.exports = app;

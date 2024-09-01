@@ -9,6 +9,8 @@ const tableBanner = require('./models/BannerModels.js');
 const tableTransaksi = require('./models/TransaksiModels.js');
 const tableService = require('./models/ServiceModels.js');
 const userRoutes = require('./routes/users.js')
+const informationRoutes = require('./routes/information.js')
+const transactionRoutes = require('./routes/transactions.js')
 
 dotenv.config();
 
@@ -40,6 +42,8 @@ app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/users", userRoutes);
+app.use("/users", userRoutes);
+app.use("/information", informationRoutes);
+app.use("/transaction", transactionRoutes);
 
 app.listen(PORT, () => console.log(`Server running at port ${PORT}`));
