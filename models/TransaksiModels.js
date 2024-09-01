@@ -23,4 +23,4 @@ const Transaction = db.define('transaction', {
 })
 
 
-module.exports =  Transaction;
+module.exports = Transaction;

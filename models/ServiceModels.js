@@ -20,4 +20,4 @@ const Service = db.define('service',{
     freezeTableName: true,
 });
 
-module.exports =  Service;
+module.exports = Service;

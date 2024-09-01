@@ -1,6 +1,6 @@
 const express = require('express');
 const { getUsers, Register, Login, Logout, updateUser, getUserById, deleteUser, updateImage, upload } = require('../controller/User.js');
-const  VerifyToken  = require('./middleware/VerifyToken.js');
+const  VerifyToken  = require('../middleware/VerifyToken.js');
 const { TambahBanner, TambahService, getBanner, getService } = require('../controller/information.js');
 const { GetAmount, GetHistory, TambahTransaction, TopUpAmount } = require('../controller/Transactions.js');
 

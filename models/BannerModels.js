@@ -17,4 +17,4 @@ const Banner = db.define('banner',{
     freezeTableName: true,
 });
 
-module.exports =  Banner;
+module.exports = Banner;
