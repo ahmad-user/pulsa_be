@@ -9,6 +9,8 @@ const fs = require("fs");
 const VerifyToken = require("../middleware/VerifyToken.js");
 
 const app = express.Router();
+
+// USER
 app.post("/register", async (req, res) => {
   const { email, password, confirm_password } = req.body;
   if (!validator.isEmail(email))
@@ -236,5 +238,9 @@ app.get("/users", VerifyToken, async (req, res) => {
     });
   }
 });
+
+// BANNER
+
+
 
 module.exports = app;

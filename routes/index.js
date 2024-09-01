@@ -30,7 +30,7 @@ const app = express.Router();
 app.get("/users", VerifyToken, getUsers);
 app.get("/users/:id", VerifyToken, getUserById);
 app.delete("/users/:id", VerifyToken, deleteUser);
-app.put("/users/:id", VerifyToken, updateUser);
+// app.put("/users/:id", VerifyToken, updateUser);
 // app.put("/images/:id", upload.single("profileImage"), VerifyToken, updateImage);
 // app.post("/register", Register);
 // app.post('/login', Login);
@@ -38,11 +38,11 @@ app.put("/users/:id", VerifyToken, updateUser);
 
 //Banner
 // app.post("/banner", VerifyToken, TambahBanner);
-app.get("/banner", VerifyToken, getBanner);
+// app.get("/banner", VerifyToken, getBanner);
 
 //Service
-app.post("/service", VerifyToken, TambahService);
-app.get("/service", VerifyToken, getService);
+// app.post("/service", VerifyToken, TambahService);
+// app.get("/service", VerifyToken, getService);
 
 //Transaction
 app.post("/transaction", VerifyToken, TambahTransaction);
