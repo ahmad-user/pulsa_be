@@ -60,6 +60,9 @@ Content-Type: application/json
 ###
 // TOP UP TRANSACTION
 POST http://localhost:5000/transaction/topup
+{
+    "top_up_amount": "20000"
+}
 ###
 // GET BALANCE TRANSACTION
 GET http://localhost:5000//transaction/amount
