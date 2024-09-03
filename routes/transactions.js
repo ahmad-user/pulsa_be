@@ -54,7 +54,7 @@ app.post("/transaction", VerifyToken, async (req, res) => {
 
     const totalAmount = service.service_tarif;
 
-    if (user.balance < totalAmount) {
+    if (user.top_up_amount < totalAmount) {
       return res.status(400).json({
         status: 104,
         message: "Saldo tidak cukup",

@@ -29,7 +29,6 @@ async function initializeDatabase() {
     }
 }
 
-// Panggil fungsi async untuk menginisialisasi database
 initializeDatabase();
 
 const PORT = process.env.APP_PORT || 3000;
